@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
-
 import {
-  Grid,
   Badge,
   Drawer,
+  Grid,
   LinearProgress,
 } from '@material-ui/core';
 import ShoppingCart from '@material-ui/icons/ShoppingCart';
-import Item from './components/Item/Item';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import { StyledButton, Wrapper } from './App.styles';
 import Cart from './components/Cart';
-
-import { Wrapper, StyledButton } from './App.styles';
+import Item from './components/Item/Item';
 
 //type
 export type CartItemType = {
@@ -31,13 +29,15 @@ const getProducts = async (): Promise<CartItemType[]> => {
 };
 
 const App = () => {
-  const { data, error, isLoading } = useQuery<CartItemType[]>(
-    'products',
-    getProducts
-  );
+  const { data, error, isLoading } = useQuery<
+    CartItemType[]
+  >('products', getProducts);
 
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([] as CartItemType[]);
+  const [cartItems, setCartItems] = useState(
+    [] as CartItemType[]
+  );
+  console.log('cart item', cartItems);
 
   const handleAddToCart = (clickItem: CartItemType) => {
     // case 1: item is already added in cart
@@ -64,7 +64,10 @@ const App = () => {
       return prev.reduce((acc, item) => {
         if (item.id === id) {
           if (item.amount === 1) return acc;
-          return [...acc, { ...item, amount: item.amount - 1 }];
+          return [
+            ...acc,
+            { ...item, amount: item.amount - 1 },
+          ];
         } else {
           return [...acc, item];
         }
@@ -98,7 +101,9 @@ const App = () => {
       </Drawer>
 
       <StyledButton onClick={() => setCartOpen(true)}>
-        <Badge badgeContent={getAllItems(cartItems)} color="error">
+        <Badge
+          badgeContent={getAllItems(cartItems)}
+          color="error">
           <ShoppingCart />
         </Badge>
       </StyledButton>
@@ -106,7 +111,10 @@ const App = () => {
       <Grid container spacing={3}>
         {data?.map((item) => (
           <Grid item key={item.id} xs={12} sm={4}>
-            <Item item={item} handleAddToCart={handleAddToCart} />
+            <Item
+              item={item}
+              handleAddToCart={handleAddToCart}
+            />
           </Grid>
         ))}
       </Grid>
