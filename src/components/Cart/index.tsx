@@ -1,24 +1,20 @@
-import React from 'react';
-import { CartItemType } from '../../App';
-import CartItem from '../CartItem';
-import { CartWrapper } from './Cart.styles';
+import React from 'react'
+import { CartItemType } from '../../App'
+import CartItem from '../CartItem'
+import { CartWrapper } from './Cart.styles'
 
 type Props = {
-  cartItems: CartItemType[];
-  addToCart: (clickItem: CartItemType) => void;
-  removeFromCart: (id: number) => void;
-};
+  cartItems: CartItemType[]
+  addToCart: (clickItem: CartItemType) => void
+  removeFromCart: (id: number) => void
+}
 
-const Cart: React.FC<Props> = ({
-  cartItems,
-  addToCart,
-  removeFromCart,
-}) => {
+const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart }) => {
   const calculateTotalItem = (items: CartItemType[]) => {
     return items.reduce((acc: number, item) => {
-      return acc + item.amount * item.price;
-    }, 0);
-  };
+      return acc + item.amount * item.price
+    }, 0)
+  }
 
   return (
     <CartWrapper>
@@ -32,10 +28,9 @@ const Cart: React.FC<Props> = ({
           removeItemFromCart={removeFromCart}
         />
       ))}
-
       <h2>Total: ${calculateTotalItem(cartItems).toFixed(2)}</h2>
     </CartWrapper>
-  );
-};
+  )
+}
 
-export default Cart;
+export default Cart
